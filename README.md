@@ -125,7 +125,7 @@ it defines 6 mandatory functions that our smart contract should implement and 3 
     - burn:
         means destroy the tokens form circulation.
 
-        basically it's sent to an address that no one hat the private key of
+        basically it's sent to an address that no one had the private key of
 
 ## ERC20 Not Perfect itself
 
