@@ -34,34 +34,32 @@ contract TokenERC20 {
         string memory tokenName,
         string memory tokenSymbol
     ) {
-        totalSupply = initialSupply * 10**uint256(decimals); // update totalSupply
+        totalSupply = initialSupply * 10 ** uint256(decimals); // update totalSupply
         balanceOf[msg.sender] = totalSupply; // tokens
         name = tokenName;
-        symbol = tokenSymbol;
+        symbole = tokenSymbol;
     }
 
     // functions
-    function _transfer(
-        address _from,
-        address _to,
-        uint256 _amount
-    ) internal {
+    function _transfer(address _from, address _to, uint256 _amount) internal {
         // balanceOf[from] -= amount;
         // balanceOf[to] += amount;
         require(_to != address(0x0));
         require(balanceOf[_from] >= _amount);
-        require(balanceOf[_to] + _amount >= balanceOf[_to];)
+        require(balanceOf[_to] + _amount >= balanceOf[_to]);
         uint256 previousBalances = balanceOf[_from] + balanceOf[_to];
         // update amounts
         balanceOf[_from] -= _amount;
         balanceOf[_to] += _amount;
-        
+
         emit Transfer(_from, _to, _amount);
         assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
-
     }
 
-    function transfer(address _to, uint256 _amount) public returns (bool seccess) {
+    function transfer(
+        address _to,
+        uint256 _amount
+    ) public returns (bool seccess) {
         _transfer(msg.sender, _to, _amount);
         return true;
     }
@@ -78,27 +76,35 @@ contract TokenERC20 {
         return true;
     }
 
-    function approve(address _spender, uint256 _amount) public returns (bool seccess) {
+    function approve(
+        address _spender,
+        uint256 _amount
+    ) public returns (bool seccess) {
         allowance[msg.sender][_spender] = _amount;
         emit Approval(msg.sender, _spender, _amount);
         return true;
     }
 
-    function approveAndCall (
-        address _spender, 
+    function approveAndCall(
+        address _spender,
         uint256 _amount,
         bytes memory _extraData
     ) external returns (bool seccess) {
         tokenRecipient spender = tokenRecipient(_spender);
-        if(approve(_spender, _amount)) {
-            spender.receiveApproval(nsg.sender, _amount, address(this), _extraData);
+        if (approve(_spender, _amount)) {
+            spender.receiveApproval(
+                msg.sender,
+                _amount,
+                address(this),
+                _extraData
+            );
             return true;
         }
     }
 
     // irreversibly
 
-    function burn(uint256 _amount) external returns(bool success) {
+    function burn(uint256 _amount) external returns (bool success) {
         require(balanceOf[msg.sender] >= _amount);
         balanceOf[msg.sender] -= _amount;
         totalSupply -= _amount;
@@ -106,18 +112,17 @@ contract TokenERC20 {
         return true;
     }
 
-    function burnFrom(address _from, address _amount)
-    external
-    returns (bool seccess) 
-    {
+    function burnFrom(
+        address _from,
+        uint256 _amount
+    ) external returns (bool seccess) {
         require(balanceOf[_from] >= _amount);
         require(_amount <= allowance[_from][msg.sender]);
         balanceOf[_from] -= _amount;
         allowance[_from][msg.sender] -= _amount;
         totalSupply -= _amount;
-        emit Burn(_from, _amount)
+        emit Burn(_from, _amount);
         return true;
-        
     }
 
     function mint(uint _amount) external {
