@@ -11,3 +11,7 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
+
+1. initial supply
+2. max supply with erc20Capped
+3. make token burnable
