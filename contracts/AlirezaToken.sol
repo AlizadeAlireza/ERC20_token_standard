@@ -4,9 +4,10 @@ pragma solidity 0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // in this way we have both of these
-contract AlirezaToken is ERC20Capped {
+contract AlirezaToken is ERC20Capped, ERC20Burnable {
     address payable public owner;
     uint private initialSupply = 70_000_000;
 
