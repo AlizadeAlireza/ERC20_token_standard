@@ -10,7 +10,7 @@ interface tokenRecipient {
     ) external;
 }
 
-contract TokenERC20 {
+contract ERC20 {
     // public
     string public name;
     string public symbole;
